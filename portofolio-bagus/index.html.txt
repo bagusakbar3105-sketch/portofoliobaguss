@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - Bagus Akbar Prasetya</title>
+    <!-- FontAwesome untuk Icon Media Sosial & Tombol Atas -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Gaya Umum (General Styles) */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            scroll-behavior: smooth;
+        }
+        body {
+            color: #333;
+            line-height: 1.6;
+            background-color: #fff;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Navigasi (Navbar) */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 8%;
+            background-color: #fff;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .logo {
+            font-weight: bold;
+            color: #7c3aed; /* Warna ungu seperti gambar kedua */
+            font-size: 1.4rem;
+        }
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 25px;
+        }
+        .nav-links li a {
+            font-size: 1rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        .nav-links li a:hover {
+            color: #7c3aed;
+        }
+
+        /* Kontainer Utama */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        /* Hero Section */
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 40px;
+            padding-top: 40px;
+        }
+        .hero-img-container {
+            position: relative;
+            width: 320px;
+            height: 320px;
+        }
+        /* Efek Dot Grid Background di belakang foto */
+        .hero-img-container::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(#7c3aed 1.5px, transparent 1.5px);
+            background-size: 15px 15px;
+            z-index: -1;
+            opacity: 0.3;
+        }
+        .hero-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .hero-text {
+            max-width: 600px;
+        }
+        .hero-text h4 {
+            font-weight: normal;
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        .hero-text h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            color: #111;
+        }
+        .hero-text p {
+            margin-bottom: 25px;
+            color: #555;
+            font-size: 1.1rem;
+        }
+        .btn-black {
+            background-color: #000;
+            color: #fff;
+            padding: 12px 30px;
+            border-radius: 25px;
+            display: inline-block;
+            font-weight: 600;
+            transition: background 0.3s, transform 0.2s;
+        }
+        .btn-black:hover {
+            background-color: #222;
+            transform: translateY(-2px);
+        }
+
+        /* Judul Section */
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 35px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #111;
+        }
+
+        /* Grid Layout (Tentang Saya & Pengalaman) */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 50px;
+        }
+        .info-box h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: #111;
+        }
+        .info-box p {
+            color: #555;
+            text-align: justify;
+        }
+        .info-box ul {
+            list-style: none;
+        }
+        .info-box ul li {
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 20px;
+            color: #444;
+        }
+        .info-box ul li::before {
+            content: "•";
+            color: #7c3aed;
+            font-weight: bold;
+            font-size: 1.2rem;
+            position: absolute;
+            left: 0;
+            top: -2px;
+        }
+
+        /* Portfolio Sliding Gallery (Infinite Loop) */
+        .slider-container {
+            overflow: hidden;
+            width: 100%;
+            background: #fff;
+            padding: 20px 0;
+            display: flex;
+        }
+        .slide-track {
+            display: flex;
+            width: max-content;
+            animation: scroll-left 20s linear infinite;
+        }
+        .slide-track:hover {
+            animation-play-state: paused; /* Berhenti berputar saat kursor diarahkan ke gambar */
+        }
+        .slide-track img {
+            width: 320px;
+            height: 220px;
+            object-fit: cover;
+            margin: 0 15px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s;
+        }
+        .slide-track img:hover {
+            transform: scale(1.03);
+        }
+        
+        /* Animasi Loop Berputar */
+        @keyframes scroll-left {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); } /* Bergeser setengah dari total panjang track */
+        }
+
+        /* Riwayat Pendidikan & Magang */
+        .logos {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+        }
+        .logos a {
+            display: inline-block;
+            transition: transform 0.3s;
+        }
+        .logos a:hover {
+            transform: scale(1.08);
+        }
+        .logos img {
+            height: 120px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        /* Footer Gelap (Sesuai Gambar ke-2) */
+        footer {
+            background-color: #0f172a; /* Biru Gelap / Slate */
+            color: #fff;
+            padding: 70px 8% 30px 8%;
+            margin-top: 80px;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1.2fr;
+            gap: 40px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .footer-col h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        .footer-col h3 {
+            font-size: 1.2rem;
+            color: #fff;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        .footer-col p {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+        }
+        .footer-col ul {
+            list-style: none;
+        }
+        .footer-col ul li {
+            margin-bottom: 12px;
+        }
+        .footer-col ul li a {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+        .footer-col ul li a:hover {
+            color: #fff;
+        }
+        .footer-divider {
+            border-top: 1px solid #334155;
+            margin: 40px 0 20px 0;
+        }
+        .footer-bottom {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        /* Icon Bulat di Footer */
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+        .social-icons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border: 1px solid #475569;
+            border-radius: 50%;
+            color: #94a3b8;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+        .social-icons a:hover {
+            background-color: #7c3aed;
+            color: #fff;
+            border-color: #7c3aed;
+            transform: translateY(-3px);
+        }
+        .copyright {
+            color: #64748b;
+            font-size: 0.85rem;
+        }
+
+        /* Tombol Kembali ke Atas (Back to Top Button) */
+        #backToTopBtn {
+            display: none; 
+            position: fixed; 
+            bottom: 40px; 
+            right: 40px; 
+            z-index: 1000; 
+            border: none; 
+            outline: none; 
+            background-color: #7c3aed; /* Ungu bulat seperti di gambar 2 */
+            color: white; 
+            cursor: pointer; 
+            width: 50px;
+            height: 50px;
+            border-radius: 50%; 
+            font-size: 1.2rem; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            transition: background 0.3s, transform 0.2s;
+        }
+        #backToTopBtn:hover {
+            background-color: #6d28d9; 
+            transform: scale(1.1);
+        }
+
+        /* Responsif (Tampilan HP) */
+        @media (max-width: 768px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+            }
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+            .logos {
+                justify-content: center;
+            }
+            nav {
+                padding: 15px 5%;
+            }
+            .nav-links {
+                display: none; /* Menyembunyikan menu di HP demi kesederhanaan */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigasi -->
+    <nav>
+        <div class="logo">Bagus Akbar Prasetya</div>
+        <ul class="nav-links">
+            <li><a href="#beranda">Beranda</a></li>
+            <li><a href="#tentang">Tentang Saya</a></li>
+            <li><a href="#portfolio">Portofolio</a></li>
+            <li><a href="#pendidikan">Pendidikan</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section / Beranda -->
+    <section id="beranda" class="container hero">
+        <div class="hero-img-container">
+            <img src="Bagus Akbar Prasetya.jpg" alt="Bagus Akbar Prasetya" class="hero-img">
+        </div>
+        <div class="hero-text">
+            <h4>Halo. Perkenalkan, saya</h4>
+            <h1>BAGUS AKBAR PRASETYA</h1>
+            <p>Seorang Designer Grafik yang haus akan pengalaman.</p>
+            <!-- Tombol Hubungi Saya langsung ke WhatsApp -->
+            <a href="https://wa.me/628972518975" target="_blank" class="btn-black">Hubungi saya!</a>
+        </div>
+    </section>
+
+    <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+
+    <!-- Tentang Saya -->
+    <section id="tentang" class="container">
+        <div class="grid-2">
+            <div class="info-box">
+                <h2 class="section-title">Tentang Saya</h2>
+                <h3>GRAPHIC DESIGN & TULISAN DKV</h3>
+                <p>Siswa jurusan Desain Komunikasi Visual (DKV) di SMAN 5 Kota Bekasi. Saya memiliki minat dalam bidang desain grafis, editing konten, dan media sosial. Saya senang menciptakan desain yang menarik, kreatif, dan sesuai dengan kebutuhan pelanggan.</p>
+                
+                <h3 style="margin-top: 30px;">PENGALAMAN</h3>
+                <ul style="list-style: none;">
+                    <li>PKL Dinas Penerangan Angkatan Udara (DispenAU)</li>
+                    <li>Membuat desain untuk kebutuhan instansi.</li>
+                    <li>Mengedit foto dan konten promosi.</li>
+                    <li>Membantu pembuatan materi visual.</li>
+                    <li>Berkolaborasi dengan tim dalam berbagai proyek desain.</li>
+                </ul>
+            </div>
+            <div class="info-box">
+                <h2 class="section-title" style="visibility: hidden; margin-bottom: 35px;">Keahlian</h2> <!-- Spacer -->
+                <h3>KEAHLIAN & TOOLS DESIGN</h3>
+                <ul>
+                    <li>Desain poster dan banner</li>
+                    <li>Konten media sosial</li>
+                    <li>Branding dasar</li>
+                    <li>Editing foto dan video</li>
+                    <li>UI/UX dasar</li>
+                    <li>Canva</li>
+                    <li>Adobe Photoshop</li>
+                    <li>Figma</li>
+                    <li>CapCut</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Sliding (Looping Terus-menerus) -->
+    <section id="portfolio" style="padding-top: 40px;">
+        <div class="container" style="padding-bottom: 0;">
+            <h2 class="section-title">Portofolio</h2>
+        </div>
+        <div class="slider-container">
+            <div class="slide-track">
+                <!-- 4 Gambar Utama -->
+                <img src="port1.jpg" alt="Portfolio 1">
+                <img src="port2.jpg" alt="Portfolio 2">
+                <img src="port3.jpg" alt="Portfolio 3">
+                <img src="port4.jpg" alt="Portfolio 4">
+                
+                <!-- Duplikat 4 Gambar yang sama agar loop tidak patah -->
+                <img src="port1.jpg" alt="Portfolio 1">
+                <img src="port2.jpg" alt="Portfolio 2">
+                <img src="port3.jpg" alt="Portfolio 3">
+                <img src="port4.jpg" alt="Portfolio 4">
+            </div>
+        </div>
+    </section>
+
+    <!-- Riwayat Pendidikan & Magang -->
+    <section id="pendidikan" class="container">
+        <h2 class="section-title">Riwayat Pendidikan & Magang</h2>
+        <div class="logos">
+            <!-- Link ke Website SMAN 5 Bekasi -->
+            <a href="https://sman5bekasi.sch.id/" target="_blank">
+                <img src="sman5.png" alt="SMAN 5 Bekasi">
+            </a>
+            <!-- Link ke Website Dinas Penerangan Angkatan Udara -->
+            <a href="https://tni-au.mil.id/" target="_blank">
+                <img src="dispenau.png" alt="Dinas Penerangan Angkatan Udara">
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer Gelap (Fungsional & Mirip Gambar Kedua Anda) -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h2>Bagus Akbar Prasetya</h2>
+                <h3>Hubungi Saya</h3>
+                <p>bagusakbar1109@gmail.com</p>
+                <p>Bekasi, Jawa Barat</p>
+            </div>
+            <div class="footer-col">
+                <h3>Kategori Desain</h3>
+                <p>Social Media Design</p>
+                <p>Poster & Banner</p>
+                <p>Video Editing</p>
+            </div>
+            <div class="footer-col">
+                <h3>Tautan</h3>
+                <ul>
+                    <li><a href="#beranda">Beranda</a></li>
+                    <li><a href="#tentang">Tentang Saya</a></li>
+                    <li><a href="#portfolio">Portfolio</a></li>
+                    <li><a href="#pendidikan">Pendidikan & Magang</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-divider"></div>
+        <div class="footer-bottom">
+            <!-- Tombol Media Sosial Bulat Fungsional -->
+            <div class="social-icons">
+                <a href="https://wa.me/628972518975" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                <a href="mailto:bagusakbar1109@gmail.com" title="Email"><i class="far fa-envelope"></i></a>
+                <a href="https://linkedin.com/in/bagusakbar" target="_blank" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://instagram.com/bagusakbar11_" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+            </div>
+            <p class="copyright">&copy; 2026 Bagus Akbar Prasetya. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Tombol Kembali ke Atas (Back to Top) -->
+    <button onclick="scrollToTop()" id="backToTopBtn" title="Kembali ke Atas">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- Script JavaScript -->
+    <script>
+        // Mendapatkan elemen tombol back to top
+        const backToTopBtn = document.getElementById("backToTopBtn");
+
+        // Memunculkan tombol jika pengguna scroll ke bawah sejauh 300px
+        window.onscroll = function() {
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                backToTopBtn.style.display = "block";
+            } else {
+                backToTopBtn.style.display = "none";
+            }
+        };
+
+        // Fungsi untuk scroll mulus ke atas saat tombol ditekan
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        }
+    </script>
+
+</body>
+</html>
