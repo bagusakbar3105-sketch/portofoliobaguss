@@ -39,7 +39,7 @@
         }
         .logo {
             font-weight: bold;
-            color: #1d4ed8; /* Warna ungu seperti gambar kedua */
+            color: #1d4ed8; 
             font-size: 1.4rem;
         }
         .nav-links {
@@ -75,6 +75,9 @@
             position: relative;
             width: 320px;
             height: 320px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         /* Efek Dot Grid Background di belakang foto */
         .hero-img-container::before {
@@ -92,9 +95,9 @@
         .hero-img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            border-radius: 10px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            object-fit: contain; /* DIJAMIN TIDAK DI-CROP, KEPALA AMAN */
+            /* Menggunakan drop-shadow agar bayangan mengikuti bentuk lekuk badan PNG transparan */
+            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.15)); 
         }
         .hero-text {
             max-width: 600px;
@@ -189,7 +192,7 @@
             animation: scroll-left 20s linear infinite;
         }
         .slide-track:hover {
-            animation-play-state: paused; /* Berhenti berputar saat kursor diarahkan ke gambar */
+            animation-play-state: paused; 
         }
         .slide-track img {
             width: 320px;
@@ -199,6 +202,7 @@
             border-radius: 12px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.08);
             transition: transform 0.3s;
+            cursor: pointer; 
         }
         .slide-track img:hover {
             transform: scale(1.03);
@@ -207,7 +211,48 @@
         /* Animasi Loop Berputar */
         @keyframes scroll-left {
             0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); } /* Bergeser setengah dari total panjang track */
+            100% { transform: translateX(-50%); } 
+        }
+
+        /* Pop-up Full Gambar (Modal Lightbox) */
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 2000; 
+            padding-top: 60px; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            background-color: rgba(15, 23, 42, 0.95); 
+            backdrop-filter: blur(5px); 
+        }
+        .modal-content {
+            margin: auto;
+            display: block;
+            max-width: 90%;
+            max-height: 80vh;
+            object-fit: contain; 
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            animation: zoomIn 0.3s ease;
+        }
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 35px;
+            color: #fff;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .close-modal:hover {
+            color: #7c3aed;
+        }
+        @keyframes zoomIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
         }
 
         /* Riwayat Pendidikan & Magang */
@@ -230,9 +275,9 @@
             object-fit: contain;
         }
 
-        /* Footer Gelap (Sesuai Gambar ke-2) */
+        /* Footer Gelap */
         footer {
-            background-color: #0f172a; /* Biru Gelap / Slate */
+            background-color: #0f172a; 
             color: #fff;
             padding: 70px 8% 30px 8%;
             margin-top: 80px;
@@ -284,7 +329,6 @@
             align-items: center;
             gap: 20px;
         }
-        /* Icon Bulat di Footer */
         .social-icons {
             display: flex;
             gap: 15px;
@@ -313,7 +357,7 @@
             font-size: 0.85rem;
         }
 
-        /* Tombol Kembali ke Atas (Back to Top Button) */
+        /* Tombol Kembali ke Atas */
         #backToTopBtn {
             display: none; 
             position: fixed; 
@@ -322,7 +366,7 @@
             z-index: 1000; 
             border: none; 
             outline: none; 
-            background-color: #1d4ed8; /* Ungu bulat seperti di gambar 2 */
+            background-color: #1d4ed8; 
             color: white; 
             cursor: pointer; 
             width: 50px;
@@ -356,7 +400,7 @@
                 padding: 15px 5%;
             }
             .nav-links {
-                display: none; /* Menyembunyikan menu di HP demi kesederhanaan */
+                display: none; 
             }
         }
     </style>
@@ -383,7 +427,6 @@
             <h4>Halo. Perkenalkan, saya</h4>
             <h1>BAGUS AKBAR PRASETYA</h1>
             <p>Seorang Designer Grafik yang haus akan pengalaman.</p>
-            <!-- Tombol Hubungi Saya langsung ke WhatsApp -->
             <a href="https://wa.me/628972319975" target="_blank" class="btn-black">Hubungi saya!</a>
         </div>
     </section>
@@ -408,7 +451,7 @@
                 </ul>
             </div>
             <div class="info-box">
-                <h2 class="section-title" style="visibility: hidden; margin-bottom: 35px;">Keahlian</h2> <!-- Spacer -->
+                <h2 class="section-title" style="visibility: hidden; margin-bottom: 35px;">Keahlian</h2> 
                 <h3>KEAHLIAN & TOOLS DESIGN</h3>
                 <ul>
                     <li>Desain poster dan banner</li>
@@ -432,37 +475,43 @@
         </div>
         <div class="slider-container">
             <div class="slide-track">
-                <!-- 4 Gambar Utama -->
+                
+                <!-- === KELOMPOK UTAMA (Tambah gambar baru di sini) === -->
                 <img src="port1.jpg" alt="Portfolio 1">
                 <img src="port2.jpg" alt="Portfolio 2">
                 <img src="port3.jpg" alt="Portfolio 3">
                 <img src="port4.jpg" alt="Portfolio 4">
                 
-                <!-- Duplikat 4 Gambar yang sama agar loop tidak patah -->
+                <!-- === KELOMPOK DUPLIKAT (Wajib disamakan persis dengan di atas agar loop mulus) === -->
                 <img src="port1.jpg" alt="Portfolio 1">
                 <img src="port2.jpg" alt="Portfolio 2">
                 <img src="port3.jpg" alt="Portfolio 3">
                 <img src="port4.jpg" alt="Portfolio 4">
+                
             </div>
         </div>
     </section>
+
+    <!-- Pop-up Box Tersembunyi untuk Gambar Fullscreen (Lightbox) -->
+    <div id="imageModal" class="modal">
+        <span class="close-modal">&times;</span>
+        <img class="modal-content" id="imgFull">
+    </div>
 
     <!-- Riwayat Pendidikan & Magang -->
     <section id="pendidikan" class="container">
         <h2 class="section-title">Riwayat Pendidikan & Magang</h2>
         <div class="logos">
-            <!-- Link ke Website SMAN 5 Bekasi -->
             <a href="https://sman5bekasi.sch.id/" target="_blank">
                 <img src="sman5.png" alt="SMAN 5 Bekasi">
             </a>
-            <!-- Link ke Website Dinas Penerangan Angkatan Udara -->
             <a href="https://tni-au.mil.id/" target="_blank">
                 <img src="dispenau.png" alt="Dinas Penerangan Angkatan Udara">
             </a>
         </div>
     </section>
 
-    <!-- Footer Gelap (Fungsional & Mirip Gambar Kedua Anda) -->
+    <!-- Footer -->
     <footer>
         <div class="footer-grid">
             <div class="footer-col">
@@ -489,7 +538,6 @@
         </div>
         <div class="footer-divider"></div>
         <div class="footer-bottom">
-            <!-- Tombol Media Sosial Bulat Fungsional -->
             <div class="social-icons">
                 <a href="https://wa.me/628972319975" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
                 <a href="mailto:bagusakbar3105@gmail.com" title="Email"><i class="far fa-envelope"></i></a>
@@ -507,10 +555,9 @@
 
     <!-- Script JavaScript -->
     <script>
-        // Mendapatkan elemen tombol back to top
+        // --- 1. SCRIPT TOMBOL BACK TO TOP ---
         const backToTopBtn = document.getElementById("backToTopBtn");
 
-        // Memunculkan tombol jika pengguna scroll ke bawah sejauh 300px
         window.onscroll = function() {
             if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
                 backToTopBtn.style.display = "block";
@@ -519,12 +566,35 @@
             }
         };
 
-        // Fungsi untuk scroll mulus ke atas saat tombol ditekan
         function scrollToTop() {
             window.scrollTo({
                 top: 0,
                 behavior: "smooth"
             });
+        }
+
+        // --- 2. SCRIPT POP-UP FULL GAMBAR (MODAL LIGHTBOX) ---
+        const modal = document.getElementById("imageModal");
+        const modalImg = document.getElementById("imgFull");
+        const closeModal = document.getElementsByClassName("close-modal")[0];
+
+        const images = document.querySelectorAll(".slide-track img");
+        
+        images.forEach(img => {
+            img.addEventListener("click", function() {
+                modal.style.display = "block";
+                modalImg.src = this.src; 
+            });
+        });
+
+        closeModal.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        modal.onclick = function(e) {
+            if (e.target === modal) {
+                modal.style.display = "none";
+            }
         }
     </script>
 
