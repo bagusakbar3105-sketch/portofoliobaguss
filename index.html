@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio - Bagus Akbar Prasetya</title>
-    <!-- FontAwesome untuk Icon Media Sosial & Tombol Atas -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
     <style>
         /* Gaya Umum (General Styles) */
         * {
@@ -19,6 +19,7 @@
             color: #333;
             line-height: 1.6;
             background-color: #fff;
+            overflow-x: hidden; /* Mencegah layar bergeser ke kanan akibat animasi AOS */
         }
         a {
             text-decoration: none;
@@ -407,7 +408,6 @@
 </head>
 <body>
 
-    <!-- Navigasi -->
     <nav>
         <div class="logo">Bagus Akbar Prasetya</div>
         <ul class="nav-links">
@@ -418,12 +418,11 @@
         </ul>
     </nav>
 
-    <!-- Hero Section / Beranda -->
     <section id="beranda" class="container hero">
-        <div class="hero-img-container">
+        <div class="hero-img-container" data-aos="fade-right">
             <img src="Picsart_26-07-14_21-09-57-878.png" alt="Bagus Akbar Prasetya" class="hero-img">
         </div>
-        <div class="hero-text">
+        <div class="hero-text" data-aos="fade-left">
             <h4>Halo. Perkenalkan, saya</h4>
             <h1>BAGUS AKBAR PRASETYA</h1>
             <p>Seorang Designer Grafik yang haus akan pengalaman.</p>
@@ -433,10 +432,9 @@
 
     <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
 
-    <!-- Tentang Saya -->
     <section id="tentang" class="container">
         <div class="grid-2">
-            <div class="info-box">
+            <div class="info-box" data-aos="fade-right">
                 <h2 class="section-title">Tentang Saya</h2>
                 <h3>GRAPHIC DESIGN & TULISAN DKV</h3>
                 <p>Siswa jurusan Desain Komunikasi Visual (DKV) di SMAN 5 Kota Bekasi. Saya memiliki minat dalam bidang desain grafis, editing konten, dan media sosial. Saya senang menciptakan desain yang menarik, kreatif, dan sesuai dengan kebutuhan pelanggan.</p>
@@ -450,7 +448,7 @@
                     <li>Berkolaborasi dengan tim dalam berbagai proyek desain.</li>
                 </ul>
             </div>
-            <div class="info-box">
+            <div class="info-box" data-aos="fade-left">
                 <h2 class="section-title" style="visibility: hidden; margin-bottom: 35px;">Keahlian</h2> 
                 <h3>KEAHLIAN & TOOLS DESIGN</h3>
                 <ul>
@@ -468,21 +466,18 @@
         </div>
     </section>
 
-    <!-- Portfolio Sliding (Looping Terus-menerus) -->
-    <section id="portfolio" style="padding-top: 40px;">
+    <section id="portfolio" style="padding-top: 40px;" data-aos="fade-up">
         <div class="container" style="padding-bottom: 0;">
             <h2 class="section-title">Portofolio</h2>
         </div>
         <div class="slider-container">
             <div class="slide-track">
                 
-                <!-- === KELOMPOK UTAMA (Tambah gambar baru di sini) === -->
                 <img src="port1.jpg" alt="Portfolio 1">
                 <img src="port2.jpg" alt="Portfolio 2">
                 <img src="port3.jpg" alt="Portfolio 3">
                 <img src="port4.jpg" alt="Portfolio 4">
                 
-                <!-- === KELOMPOK DUPLIKAT (Wajib disamakan persis dengan di atas agar loop mulus) === -->
                 <img src="port1.jpg" alt="Portfolio 1">
                 <img src="port2.jpg" alt="Portfolio 2">
                 <img src="port3.jpg" alt="Portfolio 3">
@@ -492,14 +487,12 @@
         </div>
     </section>
 
-    <!-- Pop-up Box Tersembunyi untuk Gambar Fullscreen (Lightbox) -->
     <div id="imageModal" class="modal">
         <span class="close-modal">&times;</span>
         <img class="modal-content" id="imgFull">
     </div>
 
-    <!-- Riwayat Pendidikan & Magang -->
-    <section id="pendidikan" class="container">
+    <section id="pendidikan" class="container" data-aos="fade-up">
         <h2 class="section-title">Riwayat Pendidikan & Magang</h2>
         <div class="logos">
             <a href="https://sman5bekasi.sch.id/" target="_blank">
@@ -511,7 +504,6 @@
         </div>
     </section>
 
-    <!-- Footer -->
     <footer>
         <div class="footer-grid">
             <div class="footer-col">
@@ -548,14 +540,22 @@
         </div>
     </footer>
 
-    <!-- Tombol Kembali ke Atas (Back to Top) -->
     <button onclick="scrollToTop()" id="backToTopBtn" title="Kembali ke Atas">
         <i class="fas fa-chevron-up"></i>
     </button>
 
-    <!-- Script JavaScript -->
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script>
-        // --- 1. SCRIPT TOMBOL BACK TO TOP ---
+        // Inisialisasi efek AOS
+        AOS.init({
+            duration: 1000, // Kecepatan animasi (1 detik)
+            once: true,     // Animasi hanya berjalan sekali pas di-scroll ke bawah
+            offset: 120,    // Jarak (dalam px) sebelum animasi terpicu
+        });
+    </script>
+
+    <script>
+        // --- 2. SCRIPT TOMBOL BACK TO TOP ---
         const backToTopBtn = document.getElementById("backToTopBtn");
 
         window.onscroll = function() {
@@ -573,7 +573,7 @@
             });
         }
 
-        // --- 2. SCRIPT POP-UP FULL GAMBAR (MODAL LIGHTBOX) ---
+        // --- 3. SCRIPT POP-UP FULL GAMBAR (MODAL LIGHTBOX) ---
         const modal = document.getElementById("imageModal");
         const modalImg = document.getElementById("imgFull");
         const closeModal = document.getElementsByClassName("close-modal")[0];
