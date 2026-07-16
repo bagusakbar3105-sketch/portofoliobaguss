@@ -56,6 +56,14 @@
         .nav-links li a:hover {
             color: #7c3aed;
         }
+        
+        /* Tombol Hamburger di HP */
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: #111;
+        }
 
         /* Kontainer Utama */
         .container {
@@ -93,12 +101,20 @@
             z-index: -1;
             opacity: 0.3;
         }
+        
+        /* Animasi Mengambang (Floating) */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-12px); }
+            100% { transform: translateY(0px); }
+        }
         .hero-img {
             width: 100%;
             height: 100%;
             object-fit: contain; /* DIJAMIN TIDAK DI-CROP, KEPALA AMAN */
             /* Menggunakan drop-shadow agar bayangan mengikuti bentuk lekuk badan PNG transparan */
             filter: drop-shadow(0 10px 15px rgba(0,0,0,0.15)); 
+            animation: float 4s ease-in-out infinite; /* Efek melayang halus */
         }
         .hero-text {
             max-width: 600px;
@@ -121,6 +137,17 @@
             color: #555;
             font-size: 1.1rem;
         }
+        
+        /* Kursor efek mengetik */
+        #typing-text {
+            border-right: 2px solid #7c3aed;
+            animation: blink-caret 0.75s step-end infinite;
+        }
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #7c3aed; }
+        }
+
         .btn-black {
             background-color: #000;
             color: #fff;
@@ -177,6 +204,46 @@
             position: absolute;
             left: 0;
             top: -2px;
+        }
+
+        /* Desain Baru Badges Keahlian */
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .skill-badge, .skill-badge-tool {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        .skill-badge {
+            background-color: #f3f4f6;
+            color: #1f2937;
+            border: 1px solid #e5e7eb;
+        }
+        .skill-badge:hover {
+            background-color: #7c3aed;
+            color: #fff;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(124, 58, 237, 0.2);
+        }
+        .skill-badge-tool {
+            background-color: #e0f2fe;
+            color: #0369a1;
+            border: 1px solid #bae6fd;
+        }
+        .skill-badge-tool:hover {
+            background-color: #1d4ed8;
+            color: #fff;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(29, 78, 216, 0.2);
         }
 
         /* Portfolio Sliding Gallery (Infinite Loop) */
@@ -399,9 +466,26 @@
             }
             nav {
                 padding: 15px 5%;
+                position: relative;
+            }
+            .menu-toggle {
+                display: block !important; /* Memunculkan tombol hamburger di HP */
             }
             .nav-links {
                 display: none; 
+                flex-direction: column;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background-color: #fff;
+                box-shadow: 0 10px 15px rgba(0,0,0,0.05);
+                padding: 20px;
+                gap: 15px;
+                text-align: center;
+            }
+            .nav-links.active {
+                display: flex; /* Memunculkan menu ketika aktif */
             }
         }
     </style>
@@ -410,12 +494,15 @@
 
     <nav>
         <div class="logo">Bagus Akbar Prasetya</div>
-        <ul class="nav-links">
+        <ul class="nav-links" id="navLinks">
             <li><a href="#beranda">Beranda</a></li>
             <li><a href="#tentang">Tentang Saya</a></li>
             <li><a href="#portfolio">Portofolio</a></li>
             <li><a href="#pendidikan">Pendidikan</a></li>
         </ul>
+        <div class="menu-toggle" id="mobileMenu">
+            <i class="fas fa-bars"></i>
+        </div>
     </nav>
 
     <section id="beranda" class="container hero">
@@ -425,7 +512,7 @@
         <div class="hero-text" data-aos="fade-left">
             <h4>Halo. Perkenalkan, saya</h4>
             <h1>BAGUS AKBAR PRASETYA</h1>
-            <p>Seorang Designer Grafik yang haus akan pengalaman.</p>
+            <p>Saya seorang <span id="typing-text"></span></p>
             <a href="https://wa.me/628972319975" target="_blank" class="btn-black">Hubungi saya!</a>
         </div>
     </section>
@@ -448,20 +535,21 @@
                     <li>Berkolaborasi dengan tim dalam berbagai proyek desain.</li>
                 </ul>
             </div>
+            
             <div class="info-box" data-aos="fade-left">
                 <h2 class="section-title" style="visibility: hidden; margin-bottom: 35px;">Keahlian</h2> 
                 <h3>KEAHLIAN & TOOLS DESIGN</h3>
-                <ul>
-                    <li>Desain poster dan banner</li>
-                    <li>Konten media sosial</li>
-                    <li>Branding dasar</li>
-                    <li>Editing foto dan video</li>
-                    <li>UI/UX dasar</li>
-                    <li>Canva</li>
-                    <li>Adobe Photoshop</li>
-                    <li>Figma</li>
-                    <li>CapCut</li>
-                </ul>
+                <div class="skills-container">
+                    <span class="skill-badge"><i class="fas fa-palette"></i> Desain Poster & Banner</span>
+                    <span class="skill-badge"><i class="fas fa-hashtag"></i> Konten Media Sosial</span>
+                    <span class="skill-badge"><i class="fas fa-bullseye"></i> Branding Dasar</span>
+                    <span class="skill-badge"><i class="fas fa-video"></i> Editing Foto & Video</span>
+                    <span class="skill-badge"><i class="fas fa-window-maximize"></i> UI/UX Dasar</span>
+                    <span class="skill-badge-tool"><i class="fab fa-figma"></i> Figma</span>
+                    <span class="skill-badge-tool"><i class="fas fa-paint-brush"></i> Canva</span>
+                    <span class="skill-badge-tool"><i class="fas fa-images"></i> Photoshop</span>
+                    <span class="skill-badge-tool"><i class="fas fa-cut"></i> CapCut</span>
+                </div>
             </div>
         </div>
     </section>
@@ -546,7 +634,7 @@
 
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script>
-        // Inisialisasi efek AOS
+        // --- 1. INISIALISASI EFEK AOS ---
         AOS.init({
             duration: 1000, // Kecepatan animasi (1 detik)
             once: true,     // Animasi hanya berjalan sekali pas di-scroll ke bawah
@@ -555,7 +643,69 @@
     </script>
 
     <script>
-        // --- 2. SCRIPT TOMBOL BACK TO TOP ---
+        // --- 2. SCRIPT HAMBURGER MENU (NAVIGASI HP) ---
+        const mobileMenu = document.getElementById('mobileMenu');
+        const navLinks = document.getElementById('navLinks');
+
+        mobileMenu.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            const icon = mobileMenu.querySelector('i');
+            if (navLinks.classList.contains('active')) {
+                icon.className = 'fas fa-times';
+            } else {
+                icon.className = 'fas fa-bars';
+            }
+        });
+
+        // Tutup menu otomatis jika salah satu navigasi diklik
+        document.querySelectorAll('.nav-links li a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                mobileMenu.querySelector('i').className = 'fas fa-bars';
+            });
+        });
+
+        // --- 3. SCRIPT TYPING EFFECT (EFEK KETIK OTOMATIS) ---
+        const words = ["Graphic Designer", "Video Editor", "UI/UX Enthusiast", "Siswa DKV"];
+        let wordIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        const typingSpeed = 100;
+        const erasingSpeed = 60;
+        const newWordDelay = 2000; 
+
+        function type() {
+            const currentWord = words[wordIndex];
+            const textElement = document.getElementById("typing-text");
+            if (!textElement) return;
+            
+            if (isDeleting) {
+                textElement.textContent = currentWord.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                textElement.textContent = currentWord.substring(0, charIndex + 1);
+                charIndex++;
+            }
+            
+            let typeDelay = isDeleting ? erasingSpeed : typingSpeed;
+            
+            if (!isDeleting && charIndex === currentWord.length) {
+                typeDelay = newWordDelay;
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                wordIndex = (wordIndex + 1) % words.length;
+                typeDelay = 500;
+            }
+            
+            setTimeout(type, typeDelay);
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            setTimeout(type, 1000);
+        });
+
+        // --- 4. SCRIPT TOMBOL BACK TO TOP ---
         const backToTopBtn = document.getElementById("backToTopBtn");
 
         window.onscroll = function() {
@@ -573,7 +723,7 @@
             });
         }
 
-        // --- 3. SCRIPT POP-UP FULL GAMBAR (MODAL LIGHTBOX) ---
+        // --- 5. SCRIPT POP-UP FULL GAMBAR (MODAL LIGHTBOX) ---
         const modal = document.getElementById("imageModal");
         const modalImg = document.getElementById("imgFull");
         const closeModal = document.getElementsByClassName("close-modal")[0];
